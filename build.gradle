@@ -1,0 +1,71 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+apply from: 'gradle/props.gradle'
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+configurations {
+    quasar
+}
+
+configurations.all {
+    resolutionStrategy {
+        failOnVersionConflict()
+    }
+}
+
+repositories {
+//    mavenLocal()
+    mavenCentral()
+//    maven { url "https://oss.sonatype.org/content/repositories/releases" }
+//    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+//    maven { url 'https://maven.java.net/content/repositories/snapshots' }
+}
+
+dependencies {
+    compile "co.paralleluniverse:quasar-core:${quasarVer}${classifier}"
+
+    quasar "co.paralleluniverse:quasar-core:${quasarVer}${classifier}@jar"
+
+    testCompile "junit:junit:$junitVer"
+}
+
+test {
+    beforeTest { desc ->
+        logger.quiet("Running test: " + desc)
+    }
+
+    afterTest { desc, result ->
+        if(result.resultType == TestResult.ResultType.FAILURE) {
+            logger.quiet("Failed test ${desc.name} [${desc.className}] with exception: ${result.exception}")
+            if(result.exception != null) {
+                result.exception.printStackTrace()
+            }
+        }
+    }
+}
+
+tasks.withType(Test) {
+    useJUnit()
+    // systemProperty 'co.paralleluniverse.fibers.verifyInstrumentation', 'true'
+
+    jvmArgs "-Xmx2048m"
+    doLast() {
+        println "file://" + getReports().getHtml().getDestination() + "/index.html"
+    }
+}
+
+mainClassName = "testgrp.QuasarIncreasingEchoApp"
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
+
+if (project.hasProperty('method')) {
+    apply from: "gradle/${project.getProperty('method')}.gradle"
+} else {
+    apply from: "gradle/agent.gradle"
+}
+
+defaultTasks 'test'

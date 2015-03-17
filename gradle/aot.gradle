@@ -1,0 +1,18 @@
+compileJava.dependsOn processResources
+compileJava {
+    doLast {
+        ant.taskdef(name:'instrumentation', classname:'co.paralleluniverse.fibers.instrument.InstrumentationTask', classpath: configurations.compile.asPath)
+        ant.instrumentation(verbose:'true', check:'true', debug:'true') {
+            fileset(dir: sourceSets.main.output.classesDir)
+        }
+    }
+}
+compileTestJava.dependsOn processTestResources
+compileTestJava {
+    doLast {
+        ant.taskdef(name:'instrumentation', classname:'co.paralleluniverse.fibers.instrument.InstrumentationTask', classpath: configurations.testCompile.asPath)
+        ant.instrumentation(verbose:'true', check:'true', debug:'true') {
+            fileset(dir: sourceSets.test.output.classesDir)
+        }
+    }
+}
