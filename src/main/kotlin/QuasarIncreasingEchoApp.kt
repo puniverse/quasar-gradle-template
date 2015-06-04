@@ -17,10 +17,7 @@ fun doAll(): Int? {
     val increasingToEcho = Channels.newIntChannel(0) // Synchronizing channel (buffer = 0)
     val echoToIncreasing = Channels.newIntChannel(0) // Synchronizing channel (buffer = 0)
 
-    val increasing = Fiber(SuspendableCallable(@Suspendable fun(): Int {
-        ////// The following is enough to test instrumentation of synchronizing methods
-        // synchronized(new Object()) {}
-
+    val increasing = Fiber(SuspendableCallable(@Suspendable {
         var curr = 0
         for (i in 0..9) {
             Fiber.sleep(1000)
@@ -33,10 +30,10 @@ fun doAll(): Int? {
         }
         println("INCREASER closing channel and exiting")
         increasingToEcho.close()
-        return curr;
+        curr;
     })).start()
 
-    val echo = Fiber(SuspendableCallable(@Suspendable fun(): Void? {
+    val echo = Fiber(SuspendableCallable(@Suspendable {
         val curr: Int?
         while (true) {
             Fiber.sleep(1000)
@@ -49,7 +46,7 @@ fun doAll(): Int? {
             } else {
                 println("ECHO detected closed channel, closing and exiting")
                 echoToIncreasing.close()
-                return null;
+                break
             }
         }
     })).start()
