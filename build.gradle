@@ -1,4 +1,14 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:0.12.200"
+    }
+}
+
 apply plugin: 'java'
+apply plugin: 'kotlin'
 apply plugin: 'application'
 
 apply from: 'gradle/props.gradle'
@@ -25,6 +35,7 @@ repositories {
 
 dependencies {
     compile "co.paralleluniverse:quasar-core:${quasarVer}${classifier}"
+    compile "co.paralleluniverse:quasar-kotlin:${quasarVer}"
 
     quasar "co.paralleluniverse:quasar-core:${quasarVer}${classifier}@jar"
 
@@ -56,10 +67,10 @@ tasks.withType(Test) {
     }
 }
 
-mainClassName = "testgrp.QuasarIncreasingEchoApp"
+mainClassName = 'testgrp.TestgrpPackage$QuasarIncreasingEchoApp$d84bbcf6'
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.3'
+    gradleVersion = '2.4'
 }
 
 if (project.hasProperty('method')) {
