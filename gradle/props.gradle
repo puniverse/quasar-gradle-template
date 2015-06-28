@@ -1,4 +1,4 @@
 apply from: 'gradle/user-props.gradle'
 
-ext.quasarVer       = '0.7.0'
+ext.quasarVer       = '0.7.2'
 ext.junitVer        = '4.12'
