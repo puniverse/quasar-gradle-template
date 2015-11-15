@@ -1,7 +1,17 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
-apply from: 'gradle/props.gradle'
+group               = 'testgrp'
+version             = '0.2.0'
+status              = 'integration'
+description         = 'TODO - Pls. edit - Gradle bootstrap project for Quasar'
+
+ext.classifier      = ':jdk8' // ':'
+sourceCompatibility = 1.8     // 1.7
+targetCompatibility = 1.8     // 1.7
+
+ext.quasarVer       = '0.7.3'
+ext.junitVer        = '4.12'
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 

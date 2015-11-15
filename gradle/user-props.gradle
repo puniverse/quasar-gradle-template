@@ -1,8 +1,0 @@
-group               = 'testgrp'
-version             = '0.1.1'
-status              = 'integration'
-description         = 'TODO - Pls. edit - Gradle bootstrap project for Quasar'
-
-ext.classifier      = '' // ':jdk8'
-sourceCompatibility = 1.7     // 1.8
-targetCompatibility = 1.7     // 1.8
