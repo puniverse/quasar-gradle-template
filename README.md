@@ -11,8 +11,8 @@ Just edit `gradle/user-props.gradle`. You might want to add JVM arguments and sy
 Currently 2 instrumentation methods can be chosen through the `method` property: `agent` and `aot`. To run them:
 
 ```
-./gradlew -Pmethod=agent run
-./gradlew -Pmethod=agent test
-./gradlew -Pmethod=aot run
-./gradlew -Pmethod=aot test
+gradle -Pmethod=agent run
+gradle -Pmethod=agent test
+gradle -Pmethod=aot run
+gradle -Pmethod=aot test
 ```
