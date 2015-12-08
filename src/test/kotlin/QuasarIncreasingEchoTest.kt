@@ -11,7 +11,7 @@ import org.junit.Test
 import org.hamcrest.CoreMatchers.*
 
 public class QuasarIncreasingEchoTest {
-    Test public fun test() {
+    @Test public fun test() {
         assertThat(doAll(), `is`(10))
     }
 }

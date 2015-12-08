@@ -6,18 +6,15 @@
 
 package testgrp
 
-import java.util.concurrent.ExecutionException
-
-import co.paralleluniverse.strands.*
 import co.paralleluniverse.strands.channels.*
-
+import co.paralleluniverse.kotlin.fiber
 import co.paralleluniverse.fibers.*
 
 fun doAll(): Int? {
     val increasingToEcho = Channels.newIntChannel(0) // Synchronizing channel (buffer = 0)
     val echoToIncreasing = Channels.newIntChannel(0) // Synchronizing channel (buffer = 0)
 
-    val increasing = Fiber(SuspendableCallable(@Suspendable {
+    val increasing = fiber @Suspendable {
         var curr = 0
         for (i in 0..9) {
             Fiber.sleep(1000)
@@ -31,10 +28,10 @@ fun doAll(): Int? {
         println("INCREASER closing channel and exiting")
         increasingToEcho.close()
         curr;
-    })).start()
+    }
 
-    val echo = Fiber(SuspendableCallable(@Suspendable {
-        val curr: Int?
+    val echo = fiber @Suspendable {
+        var curr: Int?
         while (true) {
             Fiber.sleep(1000)
             curr = increasingToEcho.receive()
@@ -42,14 +39,14 @@ fun doAll(): Int? {
 
             if (curr != null) {
                 println("ECHO sending: " + curr)
-                echoToIncreasing.send(curr)
+                echoToIncreasing.send(curr ?: 0)
             } else {
                 println("ECHO detected closed channel, closing and exiting")
                 echoToIncreasing.close()
                 break
             }
         }
-    })).start()
+    }
 
     increasing.join()
     echo.join()

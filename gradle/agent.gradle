@@ -3,5 +3,6 @@ tasks.withType(Test) {
 }
 
 applicationDefaultJvmArgs = [
-    "-javaagent:${configurations.quasar.singleFile}" // =v, =d
+    "-javaagent:${configurations.quasar.singleFile}", // =v, =d
+    "-Dco.paralleluniverse.fibers.verifyInstrumentation"
 ]

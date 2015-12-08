@@ -1,9 +1,10 @@
 buildscript {
+    ext.kotlin_version = '1.0.0-beta-3595'
     repositories {
         mavenCentral()
     }
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:0.12.200"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
@@ -11,7 +12,17 @@ apply plugin: 'java'
 apply plugin: 'kotlin'
 apply plugin: 'application'
 
-apply from: 'gradle/props.gradle'
+group               = 'testgrp'
+version             = '0.7.4-SNAPSHOT'
+status              = 'integration'
+description         = 'TODO - Pls. edit - Gradle bootstrap project for Quasar'
+
+ext.classifier      = ':jdk8'
+sourceCompatibility = 1.8     // 1.8
+targetCompatibility = 1.8     // 1.8
+
+ext.quasarVer       = '0.7.4-SNAPSHOT'
+ext.junitVer        = '4.12'
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
@@ -26,7 +37,7 @@ configurations.all {
 }
 
 repositories {
-//    mavenLocal()
+    mavenLocal()
     mavenCentral()
 //    maven { url "https://oss.sonatype.org/content/repositories/releases" }
 //    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
@@ -59,19 +70,14 @@ test {
 
 tasks.withType(Test) {
     useJUnit()
-    // systemProperty 'co.paralleluniverse.fibers.verifyInstrumentation', 'true'
+    systemProperty 'co.paralleluniverse.fibers.verifyInstrumentation', 'true'
 
-    jvmArgs "-Xmx2048m"
     doLast() {
         println "file://" + getReports().getHtml().getDestination() + "/index.html"
     }
 }
 
-mainClassName = 'testgrp.TestgrpPackage$QuasarIncreasingEchoApp$d84bbcf6'
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.4'
-}
+mainClassName = 'testgrp.QuasarIncreasingEchoAppKt'
 
 if (project.hasProperty('method')) {
     apply from: "gradle/${project.getProperty('method')}.gradle"
@@ -80,3 +86,6 @@ if (project.hasProperty('method')) {
 }
 
 defaultTasks 'test'
+sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+}
