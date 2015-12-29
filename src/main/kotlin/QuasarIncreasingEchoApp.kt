@@ -17,7 +17,7 @@ fun doAll(): Int? {
     val increasing = fiber @Suspendable {
         var curr = 0
         for (i in 0..9) {
-            Fiber.sleep(1000)
+            Fiber.sleep(10)
             println("INCREASER sending: " + curr)
             increasingToEcho.send(curr)
             curr = echoToIncreasing.receive()
@@ -33,7 +33,7 @@ fun doAll(): Int? {
     val echo = fiber @Suspendable {
         var curr: Int?
         while (true) {
-            Fiber.sleep(1000)
+            Fiber.sleep(10)
             curr = increasingToEcho.receive()
             println("ECHO received: " + curr)
 
