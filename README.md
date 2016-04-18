@@ -13,6 +13,6 @@ Currently 2 instrumentation methods can be chosen through the `method` property:
 ```
 ./gradlew -Pmethod=agent run
 ./gradlew -Pmethod=agent test
-./gradlew -Pmethod=aot run
+./gradlew -Pmethod=aot clean run
 ./gradlew -Pmethod=aot test
 ```

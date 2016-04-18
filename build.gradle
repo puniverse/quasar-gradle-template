@@ -10,7 +10,7 @@ ext.classifier      = ':jdk8' // ':'
 sourceCompatibility = 1.8     // 1.7
 targetCompatibility = 1.8     // 1.7
 
-ext.quasarVer       = '0.7.3'
+ext.quasarVer       = '0.7.4'
 ext.junitVer        = '4.12'
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
@@ -68,14 +68,14 @@ tasks.withType(Test) {
 
 mainClassName = "testgrp.QuasarIncreasingEchoApp"
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.3'
-}
-
 if (project.hasProperty('method')) {
     apply from: "gradle/${project.getProperty('method')}.gradle"
 } else {
     apply from: "gradle/agent.gradle"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.12'
 }
 
 defaultTasks 'test'
