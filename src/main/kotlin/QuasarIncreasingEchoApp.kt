@@ -7,7 +7,7 @@
 package testgrp
 
 import co.paralleluniverse.strands.channels.*
-import co.paralleluniverse.kotlin.fiber
+import co.paralleluniverse.kotlin.*
 import co.paralleluniverse.fibers.*
 
 fun doAll(): Int? {
@@ -54,6 +54,6 @@ fun doAll(): Int? {
     return increasing.get()
 }
 
-public fun main(args: Array<String>) {
+fun main(args: Array<String>) {
     doAll()
 }
